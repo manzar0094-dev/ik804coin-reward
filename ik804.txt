@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>IK804 Rewards</title>
+<style>
+body{
+    margin:0;
+    font-family:'Arial',sans-serif;
+    background: linear-gradient(120deg,#1a1a2e,#162447);
+    color:#fff;
+    text-align:center;
+}
+.box{
+    margin:50px auto;
+    padding:30px;
+    width:320px;
+    background: rgba(255,255,255,0.05);
+    border-radius:20px;
+    box-shadow:0 0 15px rgba(0,0,0,0.5);
+}
+#balance{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:36px;
+    font-weight:bold;
+    color:#ffd700;
+    text-shadow: 0 0 10px #ffd700,0 0 20px #ffb800;
+    margin:15px 0;
+}
+#balance img{
+    width:40px;
+    margin-right:10px;
+}
+button{
+    padding:12px 25px;
+    font-size:18px;
+    margin:8px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    background: gold;
+    color:#000;
+    font-weight:bold;
+    box-shadow:0 4px 6px rgba(0,0,0,0.3);
+}
+input{
+    padding:8px;
+    width:90%;
+    border-radius:6px;
+    border:none;
+    margin-bottom:8px;
+}
+.note{
+    font-size:12px;
+    color:#ccc;
+    margin-top:15px;
+}
+.ad-section{
+    margin:15px 0;
+}
+</style>
+</head>
+<body>
+
+<div class="box">
+    <h2>🪙 IK804 Rewards</h2>
+    <div id="balance">
+        <img src="mycoin.png" alt="Coin">
+        <span id="coins">0</span> IK804
+    </div>
+
+    <!-- Watch Ad button -->
+    <button onclick="watchAd()">🎥 Watch Ad & Earn (+10)</button>
+    <p>Ads today: <span id="adCount">0</span>/3</p>
+
+    <!-- Withdraw button -->
+    <button onclick="withdraw()">💸 Withdraw</button>
+    <p>Minimum 5000 Coins = 1000 PKR</p>
+
+    <hr style="margin:20px">
+
+    <!-- Referral -->
+    <p>Your Referral Link</p>
+    <input id="refLink" readonly>
+    <button onclick="copyRef()">Copy</button>
+
+    <div class="note">* Demo rewards only – no real money</div>
+
+    <!-- Embedded Ads -->
+    <div class="ad-section">
+        <!-- Native Banner -->
+        <script async="async" data-cfasync="false" src="https://pl28348155.effectivegatecpm.com/b5849e5d115e85e17c92991101be7d33/invoke.js"></script>
+        <div id="container-b5849e5d115e85e17c92991101be7d33"></div>
+
+        <!-- Social Bar -->
+        <script src="https://pl28348156.effectivegatecpm.com/84/4f/b2/844fb2a8b2a955bbe05964326f170fe9.js"></script>
+
+        <!-- Banner 480x60 -->
+        <script>
+          atOptions = {
+            'key' : 'fd17997066eb7c4c1eba5f8ea740b3d8',
+            'format' : 'iframe',
+            'height' : 60,
+            'width' : 468,
+            'params' : {}
+          };
+        </script>
+        <script src="https://www.highperformanceformat.com/fd17997066eb7c4c1eba5f8ea740b3d8/invoke.js"></script>
+    </div>
+</div>
+
+<script>
+// Coins & Ads system
+let coins = parseInt(localStorage.getItem("ik804")) || 0;
+document.getElementById("coins").innerText = coins;
+
+let today = new Date().toDateString();
+let adData = JSON.parse(localStorage.getItem("adData")) || {date:today,count:0};
+if(adData.date !== today){
+    adData = {date:today,count:0};
+    localStorage.setItem("adData",JSON.stringify(adData));
+}
+document.getElementById("adCount").innerText = adData.count;
+
+// Floating coin animation (image only)
+function showFloatingCoin(){
+    const coin = document.createElement("img");
+    coin.src="mycoin.png"; // Your custom coin PNG
+    coin.style.position="absolute";
+    coin.style.left=Math.random()*window.innerWidth+"px";
+    coin.style.top="0px";
+    coin.style.width="30px";
+    coin.style.transition="top 1s ease-out, opacity 1s";
+    document.body.appendChild(coin);
+    setTimeout(()=>{
+        coin.style.top=(150+Math.random()*100)+"px";
+        coin.style.opacity="0";
+    },10);
+    setTimeout(()=>coin.remove(),1000);
+}
+
+function animateCoins(){
+    const el = document.getElementById("coins");
+    el.style.transform="scale(1.5)";
+    setTimeout(()=>{el.style.transform="scale(1)";},300);
+}
+
+// Watch Ad → Smartlink
+function watchAd(){
+    if(adData.count>=3){
+        alert("Aaj ke 3 ads complete ho chuke hain");
+        return;
+    }
+    // Smartlink
+    window.open("https://www.effectivegatecpm.com/e4kvetii?key=4ff6d4c30f1b0d04540e8f80037b8f","_blank");
+    adData.count++;
+    localStorage.setItem("adData",JSON.stringify(adData));
+
+    coins+=10;
+    localStorage.setItem("ik804",coins);
+    document.getElementById("coins").innerText=coins;
+    document.getElementById("adCount").innerText=adData.count;
+
+    animateCoins();
+    for(let i=0;i<5;i++) showFloatingCoin();
+}
+
+// Withdraw → Popunder
+function withdraw(){
+    let coins = parseInt(localStorage.getItem("ik804")) || 0;
+    if(coins < 5000){
+        alert("Minimum 5000 coins required for withdrawal");
+        return;
+    }
+    let last = localStorage.getItem("withdrawDay");
+    if(last===today){
+        alert("Withdraw request already sent today");
+        return;
+    }
+    // Popunder
+    window.open("https://pl28348153.effectivegatecpm.com/17/f9/23/17f9235bb82d45f28ef4045a97448e5c.js","_blank");
+    localStorage.setItem("withdrawDay",today);
+    alert("Withdraw request submitted for "+(coins*0.2)+" PKR");
+}
+
+// Referral system
+let myId = localStorage.getItem("myRefId");
+if(!myId){
+    myId="U"+Math.floor(Math.random()*100000);
+    localStorage.setItem("myRefId",myId);
+}
+document.getElementById("refLink").value = location.origin + location.pathname + "?ref=" + myId;
+
+function copyRef(){
+    navigator.clipboard.writeText(document.getElementById("refLink").value);
+    alert("Referral link copied");
+}
+
+let ref = new URLSearchParams(window.location.search).get("ref");
+if(ref && !localStorage.getItem("refClaimed")){
+    coins+=20;
+    localStorage.setItem("ik804",coins);
+    localStorage.setItem("refClaimed","yes");
+    alert("Referral bonus +20 IK804 added");
+}
+</script>
+
+</body>
+</html>
